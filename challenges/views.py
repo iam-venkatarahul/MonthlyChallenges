@@ -24,11 +24,13 @@ monthly_challenges_dict = {
 def monthly_challenge(request , month):
     try:
         challenge_msg = monthly_challenges_dict[month]
-        response_data = render_to_string("Challenges/challenges.html")
+        return render(request , "Challenges/challenges.html" , {
+            "text": challenge_msg,
+            "month_name": month.capitalize()
+        })
     except:
         return HttpResponseNotFound("<h1>This month is invalid.....</h1>")
-    return HttpResponse(response_data)
-
+    
 def monthly_challenge_number(request , month):
     months = list(monthly_challenges_dict.keys())
     if month > len(months):
