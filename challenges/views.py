@@ -18,7 +18,7 @@ monthly_challenges_dict = {
     "september": "Start Learning Full stack",
     "october" :"Eat Only Veg",
     "november" :"Start Running",
-    "december" :"Start Vlogging",
+    "december" :None,
 }
 #first view
 def monthly_challenge(request , month):
@@ -26,7 +26,7 @@ def monthly_challenge(request , month):
         challenge_msg = monthly_challenges_dict[month]
         return render(request , "Challenges/challenges.html" , {
             "text": challenge_msg,
-            "month_name": month.capitalize()
+            "month_name": month
         })
     except:
         return HttpResponseNotFound("<h1>This month is invalid.....</h1>")
@@ -40,14 +40,8 @@ def monthly_challenge_number(request , month):
     return HttpResponseRedirect(redirect_path)
     
 def index_of_months(request):
-    list_months = ""
     months = list(monthly_challenges_dict.keys())
-    
-    for month in months:
-        c_month = month.capitalize()
-        month_path = reverse("month-chall" , args=[month])
-        list_months += f"<li><a href = \"{month_path}\">{c_month}</a></li>"
-        
-    response_data = f"<ui>{list_months}</ui>"
-    return HttpResponse(response_data)
+    return render(request , "Challenges/index.html" , {
+        "months_list" : months
+    })
     
